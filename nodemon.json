@@ -4,5 +4,8 @@
     "ignore": [
         ".git",
         "node_modules"
-    ]
+    ],
+    "scripts": {
+        "dev": "nodemon --env-file=.env server.js"
+    }
 }
