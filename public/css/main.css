@@ -51,14 +51,19 @@ body {
         border-radius: .25rem;
         padding: 20px;
         display: flex;
+
+        h2 {
+            margin-top: 0;
+        }
     }
     .about-text {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        /* justify-content: center; */
         
         p {
             text-align: left;
+            margin: 5px 0;
         }
     }
 }
