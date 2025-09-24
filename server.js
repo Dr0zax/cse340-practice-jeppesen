@@ -1,13 +1,11 @@
 import {fileURLToPath} from 'url';
 import path from 'path';
 import express from 'express';
-import { error } from 'console';
 
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const NAME = process.env.NAME;
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || "production";
 
