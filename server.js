@@ -1,6 +1,7 @@
 import {fileURLToPath} from 'url';
 import path from 'path';
 import express from 'express';
+import { title } from 'process';
 
 const app = express();
 
@@ -29,8 +30,36 @@ app.get('/products', (req, res) => {
     res.render('products', { title })
 })
 
+app.get('/test-error', (req, res, next) => {
+    const err = new Error("This is a test error");
+    err.status = 500;
+    next(err);
+});
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
+
+app.use((req, res, next) => {
+    const error = new Error("Page Not Found");
+    error.status = 404;
+    next(error);
+});
+
+app.use((err, req, res, next) => {
+    console.error("Error occurred: ", err.message);
+    console.error("Stack Trace: ", err.stack);
+
+    const status = err.status || 500;
+    const template = status === 500 ? '404' : '500';
+
+    const context = {
+        title: status === 400 ? "Server Error" : "Page Not Found",
+        error: err.message,
+        stack: err.stack
+    }
+
+    res.status(status).render(`errors/${status}`, context);
+});
 
 if (NODE_ENV.includes('dev')) {
     const ws = await import('ws');

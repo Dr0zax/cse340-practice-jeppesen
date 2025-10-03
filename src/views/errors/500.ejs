@@ -1,0 +1,15 @@
+<%- include('../partials/header') %>
+<main id="server-error">
+  <h1>Whoops, something went wrong</h1>
+  <p>Sorry, we are experiencing some technical difficulties. Sit tight while we notify our team</p>
+  <a href="/">Back</a>
+
+  <% if (NODE_ENV === "development") {%>
+    <details open>
+      <h2>Error Details</h2>
+      <pre><%= error %></pre>
+      <pre><%= stack %></pre>
+    </details>
+  <% } %>
+</main>
+<%- include('../partials/footer') %>
