@@ -105,14 +105,13 @@ app.get('/about', (req, res) => {
     res.render('about', { title });
 })
 
-app.get('/products', (req, res) => {
-    const title = "Products";
-    res.render('products', { title })
-})
-
 app.get('/catalog', (req, res) => {
     res.render('catalog', { title: "Course Catalog", courses: courses });
 });
+
+app.get('/demo', (req, res) => {
+    res.render('demo', { title: "Middleware Demo Page" });
+})
 
 app.get('/catalog/:courseId', (req, res, next) => {
     const courseId = req.params.courseId;
@@ -149,10 +148,6 @@ app.get('/catalog/:courseId', (req, res, next) => {
     })
     
 
-});
-
-app.get('/demo', addDemoHeader, (req, res) => {
-    res.render('demo', { title: "Middleware Demo Page" });
 });
 
 app.get('/test-error', (req, res, next) => {
