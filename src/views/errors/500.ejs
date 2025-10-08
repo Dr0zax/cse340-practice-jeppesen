@@ -2,7 +2,10 @@
 <main id="server-error">
   <h1>Whoops, something went wrong</h1>
   <p>Sorry, we are experiencing some technical difficulties. Sit tight while we notify our team</p>
-  <a href="/">Back</a>
+
+  <div class="navigation">
+        <p><a href="/">&larr; Back to Home</a></p>
+  </div>
 
   <% if (NODE_ENV === "development") {%>
     <details open>

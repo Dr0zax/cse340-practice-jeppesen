@@ -1,7 +1,6 @@
 import {fileURLToPath} from 'url';
 import path from 'path';
 import express from 'express';
-import { title } from 'process';
 
 // Course data - place this after imports, before routes
 const courses = {
@@ -52,20 +51,111 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
     res.locals.NODE_ENV = NODE_ENV.toLowerCase() || 'production';
     next();
-})
+});
+
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+});
+
+app.use((req, res, next) => {
+    res.locals.currentYear = new Date().getFullYear();
+    next();
+});
+
+app.use((req, res, next) => {
+    const currentHour = new Date().getHours();
+
+    if (currentHour <= 12) { res.locals.greeting = "Good Morning!" } // Before Noon
+    else if (currentHour >= 17) { res.locals.greeting = "Good Evening!" } // Evening
+    else { res.locals.greeting = "Good Afternoon!" } // Afternoon
+
+    next();
+});
+
+app.use((req, res, next) => {
+    const themes = ['light-blue-theme', 'purple-theme', "green-theme"];
+
+    const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+    console.log(randomTheme);
+    
+    res.locals.bodyClass = randomTheme;
+    next();
+});
+
+app.use((req, res, next) => {
+    let params = req.query;
+
+    res.locals.queryParams = params;
+    console.log(res.locals.queryParams);
+    
+    next();
+});
+
+const addDemoHeader = (req, res, next) => {
+    res.set('X-Demo-Header', true);
+    res.set('X-Middleware-Demo', "This request passed through the middleware");
+    next();
+};
 
 app.get('/', (req, res) => {
     const title = "Welcome!";
     res.render('home', { title });
 })
+
 app.get('/about', (req, res) => {
     const title = "About Me";
     res.render('about', { title });
 })
+
 app.get('/products', (req, res) => {
     const title = "Products";
     res.render('products', { title })
 })
+
+app.get('/catalog', (req, res) => {
+    res.render('catalog', { title: "Course Catalog", courses: courses });
+});
+
+app.get('/catalog/:courseId', (req, res, next) => {
+    const courseId = req.params.courseId;
+    const course = courses[courseId];
+
+    if (!course) {
+        const err = new Error(`Course ${courseId} not found`);
+        err.status = 404;
+        return next(err);
+    }
+
+    const sortBy = req.query.sort || 'time';
+    let sortedSections = [...course.sections];
+
+    switch (sortBy) {
+        case 'professor':
+            sortedSections.sort((a, b) => a.professor.localeCompare(b.professor));
+            break;
+        case 'room':
+            sortedSections.sort((a, b) => a.room.localeCompare(b.room));
+        case 'time':
+            break;
+        default:
+            break;
+    }
+
+    console.log(`Viewing course: ${courseId}`);
+
+    res.render('course-detail', {
+        title: `${courseId} - ${course.title}`,
+        course: {...course, sections: sortedSections},
+        currentSort: sortBy
+    })
+    
+
+});
+
+app.get('/demo', addDemoHeader, (req, res) => {
+    res.render('demo', { title: "Middleware Demo Page" });
+});
 
 app.get('/test-error', (req, res, next) => {
     const err = new Error("This is a test error");

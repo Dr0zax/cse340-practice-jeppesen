@@ -2,14 +2,14 @@ html, body {
     background-color: rgb(255, 255, 255);
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
 body {
     nav {
         ul {
             margin: 0;
-            padding: 0;
+            padding: 20px;
             list-style-type: none;
             display: flex;
             justify-content: center;
@@ -119,5 +119,9 @@ body {
             }
         }
     }
+
+    &.light-blue-theme { background-color: #c7c5ff; }
+    &.purple-theme { background-color: #f1c5ff }
+    &.green-theme { background-color: #c5ffdc; }
 }
 
