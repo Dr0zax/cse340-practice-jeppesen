@@ -85,10 +85,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
     let params = req.query;
-
     res.locals.queryParams = params;
-    console.log(res.locals.queryParams);
-    
     next();
 });
 
@@ -136,6 +133,7 @@ app.get('/catalog/:courseId', (req, res, next) => {
             break;
         case 'room':
             sortedSections.sort((a, b) => a.room.localeCompare(b.room));
+            break;
         case 'time':
             break;
         default:
@@ -177,15 +175,15 @@ app.use((err, req, res, next) => {
     console.error("Stack Trace: ", err.stack);
 
     const status = err.status || 500;
-    const template = status === 500 ? '404' : '500';
+    const template = status === 500 ? '500' : '404';
 
     const context = {
-        title: status === 400 ? "Server Error" : "Page Not Found",
+        title: status === 500 ? "Server Error" : "Page Not Found",
         error: err.message,
-        stack: err.stack
-    }
+        stack: NODE_ENV.includes('dev') ? err.stack : undefined
+    };
 
-    res.status(status).render(`errors/${status}`, context);
+    res.status(status).render(`errors/${template}`, context);
 });
 
 if (NODE_ENV.includes('dev')) {
