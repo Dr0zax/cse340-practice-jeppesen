@@ -1,0 +1,45 @@
+<%- include('../partials/header') %>
+<main>
+  <h1><%= title %></h1>
+
+  <div class="faculty">
+    <div class="faculty-header">
+        <h2>Current Faculty</h2>
+        <div class="sort-options">
+        <span>Sort By:</span>
+        <a
+          href="/faculty"
+          class="<%= sortBy === 'department' ? 'active' : '' %>"
+          >Department</a
+        >
+        <a
+          href="/faculty?sort=name"
+          class="<%= sortBy === 'name' ? 'active' : '' %>"
+          >Name</a
+        >
+        <a
+          href="/faculty?sort=title"
+          class="<%= sortBy === 'title' ? 'active' : '' %>"
+          >Title</a
+        >
+      </div>
+    </div>
+
+    <div class="faculty-list">
+      <% if (faculty && faculty.length > 0) { %> <%
+      Object.values(faculty).forEach(member => { %>
+      <div class="faculty-card">
+        <h3><a href="/faculty/<%= member.id %>"><%= member.name %></a></h3>
+        <p class="faculty-department">Department • <%= member.department %></p>
+        <p class="faculty-title"><%= member.title %></p>
+      </div>
+      <% }) %> <% } else { %>
+      <p>No faculty members found.</p>
+      <% } %>
+    </div>
+  </div>
+  <div class="navigation">
+    <p><a href="/">&larr; Back to Home</a></p>
+  </div>
+</main>
+<%- include('../partials/footer') %>

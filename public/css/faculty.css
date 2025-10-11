@@ -1,0 +1,119 @@
+.faculty-list {
+    display: grid;
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+
+    .faculty-card {
+        border: 2px solid #000;
+        border-radius: 6px;
+        padding: 1rem;
+        background: #f9f9f9;
+        list-style: none;
+        transition: box-shadow 0.2s ease;
+
+        &:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .faculty-name {
+            font-weight: bold;
+            color: #000;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .faculty-title,
+        .faculty-department,
+        .faculty-office,
+        .faculty-phone {
+            color: #555;
+            margin-bottom: 0.25rem;
+        }
+
+        a {
+            color: #000;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+.faculty-detail {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+    border: 2px solid #000;
+    border-radius: 8px;
+    background: #fff;
+
+    h2 {
+        margin-top: 0;
+        color: #000;
+    }
+
+    .faculty-info {
+        margin-bottom: 1rem;
+
+        .faculty-title,
+        .faculty-department,
+        .faculty-office,
+        .faculty-phone {
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    .faculty-bio {
+        color: #444;
+        line-height: 1.6;
+    }
+}
+
+.faculty {
+    max-width: 900px;
+    margin: 0 auto;
+
+    .faculty-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #000;
+        padding-bottom: 0.5rem;
+
+        .sort-options {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+
+            span {
+                color: #666;
+                font-weight: 500;
+            }
+
+            a {
+                color: #000;
+                text-decoration: none;
+                padding: 0.25rem 0.5rem;
+                border-radius: 4px;
+
+                &:hover {
+                    background: #ddd;
+                }
+
+                &.active {
+                    background: #000;
+                    color: #fff;
+                }
+            }
+
+            
+        }
+    }
+}
+
