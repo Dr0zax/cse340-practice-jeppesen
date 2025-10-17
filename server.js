@@ -2,6 +2,7 @@ import {fileURLToPath} from 'url';
 import path from 'path';
 import express from 'express';
 
+import { setupDatabase, testConnection } from './src/models/setup.js';
 import routes from './src/controllers/routes.js';
 import { addImportantLocalVariables, addAdditionalVariables } from './src/middleware/global.js';
 
@@ -63,6 +64,13 @@ if (NODE_ENV.includes('dev')) {
     }
 }
 
-app.listen(PORT, () => {
-    console.log(`Server, is running on http://127.0.0.1:${PORT}`);
+app.listen(PORT, async () => {
+    try {
+        await testConnection();
+        await setupDatabase();
+        console.log(`Server, is running on http://127.0.0.1:${PORT}`);
+    } catch (error) {
+        console.error("Failed to start server:", error.message);
+        process.exit(1);
+    }
 })

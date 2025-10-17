@@ -18,20 +18,24 @@
         </div>
 
         <div class="section-list">
-            <% if (course && Array.isArray(course.sections) && course.sections.length) { %>
-                <% course.sections.forEach(section => { %>
-                    <div class="section-card">
-                        <div class="section-time"><%= section.time %></div>
-                        <div class="section-room">Room: <%= section.room %></div>
-                        <div class="section-professor">Instructor: <%= section.professor %></div>
-                    </div>
-                <% }); %>
-            <% } else { %>
-                <div class="no-sections">
-                    <p>No sections are available for this course at the moment.</p>
+         <% Object.keys(course).forEach(section => { %>
+            <%=section%>
+                <div class="section-card">
+                    <div class="section-time"><%= section.time %></div>
+                    <div class="section-room">Room: <%= section.room %></div>
+                    <div class="section-professor">Instructor: <%= section.professor %></div>
                 </div>
-            <% } %>
+            <% }); %>
         </div>
+
+        <% if (Object.keys(queryParams).length > 0) { %>
+            <p><strong>Query Parameters:</strong></p>
+            <ul>
+                <% Object.keys(queryParams).forEach(key => { %>
+                    <li><%= key %>: <%= queryParams[key] %></li>
+                <% }); %>
+            </ul>
+        <% } %>
     </div>
 
     <div class="navigation">
