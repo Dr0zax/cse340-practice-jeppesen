@@ -18,7 +18,7 @@
         </div>
 
         <div class="section-list">
-         <% Object.values(sections).forEach(section => { %>
+         <% sections.forEach(section => { %>
                 <div class="section-card">
                     <div class="section-time"><%= section.time %></div>
                     <div class="section-room">Room: <%= section.room %></div>
