@@ -3,6 +3,10 @@ html, body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+
+    &.light-blue-theme { background-color: #c7c5ff; }
+    &.purple-theme { background-color: #f1c5ff }
+    &.green-theme { background-color: #c5ffdc; }
 }
 
 body {
@@ -49,6 +53,7 @@ body {
         border-radius: .25rem;
         padding: 20px;
         display: flex;
+        background-color: white;
 
         h2 {
             margin-top: 0;
@@ -119,9 +124,5 @@ body {
             }
         }
     }
-
-    &.light-blue-theme { background-color: #c7c5ff; }
-    &.purple-theme { background-color: #f1c5ff }
-    &.green-theme { background-color: #c5ffdc; }
 }
 

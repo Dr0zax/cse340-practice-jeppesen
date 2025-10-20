@@ -4,7 +4,8 @@ import { getSortedSections } from "../../models/catalog/catalog.js";
 const catalogPage = async (req, res, next) => {
     const courses = await getAllCourses();
 
-    res.render('catalog', {
+    addCatalogSpecificStyles(res);
+    res.render('catalog/list', {
         title: `Course Catalog`,
         courses: courses
     });
@@ -23,15 +24,17 @@ const courseDetailPage = async (req, res, next) => {
     const sortBy = req.query.sort || 'time';
     const sections = await getSortedSections(courseSlug, sortBy);
 
-    // console.log(sections);
-    
-
-    res.render('course-detail', {
+    addCatalogSpecificStyles(res);
+    res.render('catalog/detail', {
         title: `${course.courseCode} - ${course.name}`,
         course: course,
         sections: sections,
         currentSort: sortBy
     });
 };
+
+const addCatalogSpecificStyles = (res) => {
+    res.addStyle('<link rel="stylesheet" href="/css/catalog.css">')
+}
 
 export { catalogPage, courseDetailPage };

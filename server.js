@@ -4,7 +4,7 @@ import express from 'express';
 
 import { setupDatabase, testConnection } from './src/models/setup.js';
 import routes from './src/controllers/routes.js';
-import { addImportantLocalVariables, addAdditionalVariables } from './src/middleware/global.js';
+import globalMiddleware  from './src/middleware/global.js';
 
 const app = express();
 
@@ -17,8 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
-app.use(addImportantLocalVariables);
-app.use(addAdditionalVariables);
+app.use(globalMiddleware);
 
 app.use('/', routes);
 
