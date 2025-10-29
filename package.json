@@ -14,8 +14,10 @@
   "license": "ISC",
   "packageManager": "pnpm@10.17.0",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "express-validator": "^7.3.0",
     "pg": "^8.16.3"
   },
   "devDependencies": {

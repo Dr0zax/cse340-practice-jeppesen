@@ -33,8 +33,8 @@ const courseDetailPage = async (req, res, next) => {
     });
 };
 
-const addCatalogSpecificStyles = (res) => {
-    res.addStyle('<link rel="stylesheet" href="/css/catalog.css">')
-}
+    const addCatalogSpecificStyles = (res) => {
+        res.addStyle('<link rel="stylesheet" href="/css/catalog.css">')
+    }
 
 export { catalogPage, courseDetailPage };
