@@ -2,16 +2,38 @@ import {fileURLToPath} from 'url';
 import path from 'path';
 import express from 'express';
 
+import session from 'express-session';
+import connectPgSimple from 'connect-pg-simple';
+
 import { setupDatabase, testConnection } from './src/models/setup.js';
 import routes from './src/controllers/routes.js';
 import globalMiddleware  from './src/middleware/global.js';
+
 
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || "production";
+
+const pgSession = connectPgSimple(session);
+
+app.use(session({
+    store: new pgSession({
+        conString: process.env.DB_URL,
+        tableName: 'session',
+        createTableIfMissing: true
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: NODE_ENV.includes('dev') !== true,
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000
+    }
+}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));

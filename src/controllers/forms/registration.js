@@ -1,6 +1,5 @@
 import { body, validationResult } from 'express-validator';
 import { emailExists, saveUser, getAllUsers } from '../../models/forms/registration.js';
-
 /**
  * Comprehensive validation rules for user registration
  */
@@ -48,7 +47,11 @@ const registrationValidation = [
  */
 const showRegistrationForm = (req, res) => {
     // TODO: Add registration-specific styles using res.addStyle()
+    addRegistrationSpecificStyles(res);
     // TODO: Render the registration form view (forms/registration/form)
+    res.render('forms/registration/form', {
+        title: "Register",
+    })
 };
 
 /**
@@ -56,13 +59,34 @@ const showRegistrationForm = (req, res) => {
  */
 const processRegistration = async (req, res) => {
     // TODO: Check for validation errors using validationResult(req)
+    const errors = validationResult(req);
     // TODO: If errors exist, redirect back to registration form
+    if (!errors.isEmpty()) {
+        console.log('Validation Errors:', errors.array());
+        return res.redirect('/register');
+    }
     // TODO: Extract name, email, password from req.body
-    // TODO: Check if email already exists using emailExists()
+    const {name, email, password} = req.body;
+
+    const emailCheck = await emailExists(email);    
+    
+    // TODO: Check if email already exiclsts using emailExists()
     // TODO: If email exists, log message and redirect back
+    if (emailCheck) {
+        console.log("Email Already Exists");
+        return res.redirect('/register');
+    }
     // TODO: Save the user using saveUser()
+    const savedForm = await saveUser(name, email, password);
     // TODO: If save fails, log error and redirect back
     // TODO: If successful, log success and redirect to login
+    if (!savedForm) {
+        console.log('Failed to save registration form.');
+        return res.redirect('/register');
+    } else {
+        // res.redirect('/login')
+        console.log("Success");
+    }
 };
 
 /**
@@ -70,12 +94,18 @@ const processRegistration = async (req, res) => {
  */
 const showAllUsers = async (req, res) => {
     // TODO: Get all users using getAllUsers()
+    const users = await getAllUsers();
     // TODO: Add registration-specific styles
+    addRegistrationSpecificStyles(res);
     // TODO: Render the users list view (forms/registration/list) with the user data
+    res.render('forms/registration/list', {
+        title: "All Registered Users",
+        users: users
+    })
 };
 
 const addRegistrationSpecificStyles = (res) => {
-    res.addStyle('<link rel="stylesheet" href="/css/register.css">')
+    res.addStyle('<link rel="stylesheet" href="/css/registration.css">')
 }
 
 export { showRegistrationForm, processRegistration, showAllUsers, registrationValidation };

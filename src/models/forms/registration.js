@@ -8,11 +8,7 @@ import bcrypt from 'bcrypt';
  */
 const hashPassword = async (plainPassword) => {
     try {
-        bcrypt.genSalt(10, function(err, salt){
-            bcrypt.hash(plainPassword, salt, function(err, hash) {
-                return hash
-            })
-        })
+        return bcrypt.hash(plainPassword, 10);
     } catch (error) {
         console.error('Error hashing password:', error);
         return null;
@@ -39,8 +35,9 @@ const emailExists = async (email) => {
         
         const values = [email];
         const result = await db.query(query, values);
-
+        
         const count = parseInt(result.rows[0].count, 10);
+        
         return count > 0;
 
     } catch (error) {
@@ -59,19 +56,19 @@ const emailExists = async (email) => {
 const saveUser = async (name, email, password) => {
     try {
         // TODO: Hash the password using hashPassword function
-        const hashedPassword = hashPassword(password);
+        const hashedPassword = await hashPassword(password);
 
         // TODO: Write INSERT query for users table
         // TODO: Columns: name, email, password
         // TODO: Use $1, $2, $3 placeholders
         // TODO: Return: id, name, email, created_at, updated_at (NOT password)
         const query = `
-        INSERT INTO users (name, email, passord)
+        INSERT INTO users (name, email, password)
         VALUES ($1, $2, $3)
         RETURNING *;
         `;
 
-        const values = [name, email, password];
+        const values = [name, email, hashedPassword];
         const result = await db.query(query, values);
         return result.rows[0];
 
@@ -104,7 +101,7 @@ const getAllUsers = async () => {
 
     } catch (error) {
         console.error('DB Error in getAllUsers:', error);
-        return []; // Safe fallback
+        return [];
     }
 };
 

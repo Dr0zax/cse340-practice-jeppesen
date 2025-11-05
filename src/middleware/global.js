@@ -29,6 +29,11 @@ const setLocalVariables = (req, res) => {
 
     // Make req.query available to all templates
     res.locals.queryParams = { ...req.query };
+
+    res.locals.isLoggedIn = false;
+    if (req.session && req.session.user) {
+        res.locals.isLoggedIn = true;
+    }
 };
 
 /**
