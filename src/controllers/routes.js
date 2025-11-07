@@ -1,13 +1,29 @@
 import { Router } from 'express';
-
-const router =  Router();
-
 import { addDemoHeaders } from '../middleware/demo/headers.js';
 import { catalogPage, courseDetailPage } from './catalog/catalog.js';
 import { homePage, aboutPage, demoPage, testErrorPage } from './index.js';
 import { facultyListPage, facultyDetailPage } from './faculty/faculty.js';
-import { showContactForm, processContactForm, showContactResponses, contactValidation } from './forms/contact.js';
-import { showRegistrationForm, processRegistration, showAllUsers, registrationValidation } from './forms/registration.js';
+import { 
+    showContactForm, 
+    processContactForm, 
+    showContactResponses, 
+    contactValidation 
+} from './forms/contact.js';
+import { 
+    showRegistrationForm, 
+    processRegistration, showAllUsers, 
+    registrationValidation 
+} from './forms/registration.js';
+import { requireLogin } from '../middleware/auth.js';
+import {
+    showLoginForm,
+    processLogin,
+    processLogout,
+    showDashboard,
+    loginValidation
+} from './forms/login.js'
+
+const router =  Router();
 
 router.get('/', homePage);
 router.get('/about', aboutPage);
@@ -28,5 +44,11 @@ router.get('/contact/responses', showContactResponses);
 router.get('/register', showRegistrationForm);
 router.post('/register', registrationValidation, processRegistration);
 router.get('/users', showAllUsers)
+
+router.get('/login', showLoginForm);
+router.post('/login', loginValidation, processLogin);
+router.get('/logout', processLogout);
+
+router.get('/dashboard', requireLogin, showDashboard);
 
 export default router;

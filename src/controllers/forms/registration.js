@@ -84,7 +84,7 @@ const processRegistration = async (req, res) => {
         console.log('Failed to save registration form.');
         return res.redirect('/register');
     } else {
-        // res.redirect('/login')
+        res.redirect('/login')
         console.log("Success");
     }
 };
