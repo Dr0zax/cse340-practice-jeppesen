@@ -11,10 +11,15 @@ import {
 } from './forms/contact.js';
 import { 
     showRegistrationForm, 
-    processRegistration, showAllUsers, 
-    registrationValidation 
+    processRegistration, 
+    showAllUsers, 
+    registrationValidation,
+    showEditAccountForm,
+    processEditAccount,
+    updateAccountValidation,
+    processDeleteAccount 
 } from './forms/registration.js';
-import { requireLogin } from '../middleware/auth.js';
+import { requireLogin, requireRole } from '../middleware/auth.js';
 import {
     showLoginForm,
     processLogin,
@@ -50,5 +55,9 @@ router.post('/login', loginValidation, processLogin);
 router.get('/logout', processLogout);
 
 router.get('/dashboard', requireLogin, showDashboard);
+
+router.get('/users/:id/edit', requireLogin, showEditAccountForm);
+router.post('/users/:id/update', requireLogin, updateAccountValidation, processEditAccount);
+router.post('/users/:id/delete', requireRole('admin'), processDeleteAccount);
 
 export default router;

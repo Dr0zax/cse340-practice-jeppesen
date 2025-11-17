@@ -9,6 +9,8 @@ import { setupDatabase, testConnection } from './src/models/setup.js';
 import routes from './src/controllers/routes.js';
 import globalMiddleware  from './src/middleware/global.js';
 
+import flash from './src/middleware/flash.js';
+
 
 const app = express();
 
@@ -41,6 +43,7 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
+app.use(flash);
 app.use(globalMiddleware);
 
 app.use('/', routes);

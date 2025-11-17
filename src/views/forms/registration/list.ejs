@@ -1,44 +1,60 @@
 <%- include('../../partials/header') %>
-<main>
-    <h1><%= title %></h1>
+<h1><%= title %></h1>
 
-    <!-- TODO: Check if users array exists and has content -->
-     <% if (users && users.length > 0) { %>
-        <!-- TODO: Loop through users and display: ID, name, email, registration date -->
-         <div class="users-list">
-             <% users.forEach(user => { %>
-                 <div class="user-card">
-                    <div class="user-header">
-                        <h3 class="user-name"><%= user.name %></h3>
-                        <p class="user-id">ID: <%= user.id %></p>
-                    </div>
+<% // Make currentUser available outside the loop so we don't accidentally return from the template function %>
+<% const currentUser = sessionData ? sessionData.user : null; %>
 
-                    <div class="user-details">
-                        <div class="detail-item">
-                            <p class="label">Email</p>
-                        </div>
-                        <div class="detail-item">
-                            <p class="value"><%= user.email %></p>
-                        </div>
-                    </div>
+<% if (users && users.length > 0) { %>
+  <div class="users-list">
+    <% users.forEach((user) => { %>
+      <div class="user-card">
+        <h3><%= user.name %></h3>
+        <p><%= user.email %></p>
+        <div class="actions">
+          <% if (currentUser) {
+               const isOwnCard = currentUser.id === user.id;
+               const isAdmin = currentUser.role_name === 'admin';
+               const canEdit = isOwnCard || isAdmin;
+               const canDelete = isAdmin && !isOwnCard;
+               if (canEdit) { %>
+                 <a href="/users/<%= user.id %>/edit">Edit</a>
+          <%   }
+               if (canDelete) { %>
+                 <form
+                   method="POST"
+                   action="/users/<%= user.id %>/delete"
+                   style="display: inline"
+                 >
+                   <button type="submit" onclick="return confirm('Delete this user?')">
+                     Delete
+                   </button>
+                 </form>
+          <%   }
+             } %>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+<% } else { %>
+  <p class="no-users">No registered users found.</p>
+<% } %>
 
-                    <div class="user-details">
-                        <div class="detail-item">
-                            <p class="label">Registered</p>
-                        </div>
-                        <div class="detail-item">
-                            <p class="value"><%= user.created_at %></p>
-                        </div>
-                    </div>
-                 </div>
-             <% }); %>
-         </div>
-        <!-- TODO: Format the created_at date nicely -->
-        <!-- TODO: Add appropriate classes and ids; see the styles section for some ideas -->
-        <!-- TODO: Handle the case when no users are registered -->
-        <!-- NOTE: Sorting will not be a feature on this page -->
-    <% } else { %>
-    <% } %>
+<form method="POST" action="#" id="testing-form">
+    <p>
+        Ensure you are logged-in as a <strong>standard (non-admin)</strong> user before submitting this form to test access restrictions.
+    </p>
+    <input type="text" name="port" placeholder="Port (default: 8080)" />
+    <button type="submit">Send Post</button>
+</form>
+<script type="text/javascript">
+    const form = document.querySelector('#testing-form');
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const portInput = form.querySelector('input[name="port"]');
+        const port = portInput.value || '8080';
+        form.action = `/users/2/delete`;
+        form.submit();
+    });
+</script>
 
-</main>
 <%- include('../../partials/footer') %>

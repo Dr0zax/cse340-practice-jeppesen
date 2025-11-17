@@ -16,7 +16,7 @@ const setLocalVariables = (req, res) => {
     // Randomly assign a theme class to the body
     const themes = ['light-blue-theme', 'purple-theme', 'green-theme'];
     const randomTheme = themes[Math.floor(Math.random() * themes.length)];
-    res.locals.bodyClass = randomTheme;
+    res.locals.navClass = randomTheme;
 
     // Set current year for use in templates
     res.locals.currentYear = new Date().getFullYear();

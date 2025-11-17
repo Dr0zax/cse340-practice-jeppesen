@@ -40,7 +40,9 @@ const processLogin = async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        console.log('Validation Errors:', errors.array());
+        errors.array().forEach(error => {
+            req.flash('error', error.message);
+        });
         return res.redirect('/login');
     }
 
@@ -54,7 +56,7 @@ const processLogin = async (req, res) => {
     const user = await findUserByEmail(email)
 
     if (!user) {
-        console.log("Failed to find user");
+        req.flash('error', "Failed to find user");
         return res.redirect('/login');
     }
 
@@ -64,7 +66,7 @@ const processLogin = async (req, res) => {
     const passwordVerify = await verifyPassword(password, user.password);
 
     if (!passwordVerify) {
-        console.log("Invalid password");
+        req.flash('error', "Invalid password");
         return res.redirect('/login');
     }
 
@@ -76,7 +78,7 @@ const processLogin = async (req, res) => {
     req.session.user = user;
 
     // TODO: Redirect to protected dashboard (/dashboard)
-
+    req.flash('success', 'logged in.');
     res.redirect('/dashboard');
 };
 
@@ -93,6 +95,8 @@ const processLogout = (req, res) => {
         // so we just redirect the user back to the home page
         return res.redirect('/');
     }
+
+    // Set the success message BEFORE destroying the session
 
     // Call destroy() to remove this session from the store (Postgres in our case)
     req.session.destroy((err) => {

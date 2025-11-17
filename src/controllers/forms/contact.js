@@ -34,7 +34,9 @@ const processContactForm = async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        console.log('Validation errors:', errors.array());
+        errors.array().forEach(error => {
+            req.flash('error', error.message)
+        });
         return res.redirect('/contact');
     }
 
@@ -44,11 +46,11 @@ const processContactForm = async (req, res) => {
     const savedForm = await saveContactForm(subject, message);
 
     if (!savedForm) {
-        console.log('Failed to save contact form.');
+        req.flash('error', 'Failed to save contact form.');
         return res.redirect('/contact');
     }
 
-    console.log('Contact form saved:', savedForm);
+    req.flash('success', 'Thank you for contacting us!')
     res.redirect('/contact');
 };
 
