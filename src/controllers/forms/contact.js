@@ -1,20 +1,6 @@
-import { body, validationResult } from 'express-validator';
+import { validationResult } from 'express-validator';
 import { saveContactForm, getAllContactForms } from '../../models/forms/contact.js';
-
-/**
- * Validation rules for contact form submission
- */
-const contactValidation = [
-    body('subject')
-        .trim()
-        .isLength({ min: 2 })
-        .withMessage('Subject must be at least 2 characters long'),
-
-    body('message')
-        .trim()
-        .isLength({ min: 10 })
-        .withMessage('Message must be at least 10 characters long')
-];
+import { contactValidation } from '../../middleware/validation/forms.js';
 
 /**
  * Display the contact form
@@ -71,4 +57,4 @@ const addContactSpecificStyles = (res) => {
     res.addStyle('<link rel="stylesheet" href="/css/contact.css">')
 }
 
-export { showContactForm, processContactForm, showContactResponses, contactValidation };
+export { showContactForm, processContactForm, showContactResponses };

@@ -5,31 +5,49 @@
     margin: 0 auto;
 
     .faculty-card {
-        border: 2px solid #000;
+        border: 1px solid #ddd;
         border-radius: 6px;
         padding: 1rem;
         background: #f9f9f9;
         list-style: none;
         transition: box-shadow 0.2s ease;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
 
         &:hover {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-
-        .faculty-name {
-            font-weight: bold;
-            color: #000;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+        .faculty-info {
+            display: flex;
+            flex-direction: column;
+            
+            .faculty-name {
+                font-weight: bold;
+                color: #000;
+                font-size: 1.2rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .faculty-title,
+            .faculty-department,
+            .faculty-office,
+            .faculty-phone {
+                color: #555;
+                margin-bottom: 0.25rem;
+                text-align: left;
+            }
+            
         }
 
-        .faculty-title,
-        .faculty-department,
-        .faculty-office,
-        .faculty-phone {
-            color: #555;
-            margin-bottom: 0.25rem;
+        .faculty-photo {
+            width: 200px;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 7px;
+            background-color: url('https://placehold.co/480');
         }
 
         a {
@@ -47,18 +65,24 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 1rem;
-    border: 2px solid #000;
+    border: 1px solid #ddd;
     border-radius: 8px;
     background: #fff;
+    display: flex;
+    justify-content: space-between;
 
     h2 {
         margin-top: 0;
         color: #000;
     }
 
+    p {
+        text-align: left;
+    }
+
     .faculty-info {
         margin-bottom: 1rem;
-
+        
         .faculty-title,
         .faculty-department,
         .faculty-office,
@@ -67,6 +91,15 @@
             margin-bottom: 0.5rem;
         }
     }
+
+    .faculty-photo {
+                width: 200px;
+                aspect-ratio: 1/1;
+                object-fit: cover;
+                display: block;
+                margin-bottom: 7px;
+                background-color: url('https://placehold.co/480');
+            }
 
     .faculty-bio {
         color: #444;

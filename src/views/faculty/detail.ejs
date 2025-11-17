@@ -3,11 +3,18 @@
     <h1><%= title %></h1>  
 
     <div class="faculty-detail">
-        <p><strong>Department:</strong> <%= facultyMember.department %></p>
-        <p><strong>Title:</strong> <%= facultyMember.title %></p>
-        <p><strong>Email:</strong> <a href="mailto:<%= facultyMember.email %>"><%= facultyMember.email %></a></p>
-        <p><strong>Phone:</strong> <%= facultyMember.phone %></p>
-        <p><strong>Office:</strong> <%= facultyMember.office %></p>
+        <div>
+            <p><strong>Department:</strong> <%= facultyMember.department %></p>
+            <p><strong>Title:</strong> <%= facultyMember.title %></p>
+            <p><strong>Email:</strong> <a href="mailto:<%= facultyMember.email %>"><%= facultyMember.email %></a></p>
+            <p><strong>Phone:</strong> <%= facultyMember.phone %></p>
+            <p><strong>Office:</strong> <%= facultyMember.office %></p>
+        </div>
+        <img 
+        src="/images/faculty/<%= facultyMember.slug %>.jpg" 
+        alt="Photo of <%= facultyMember.name %>" 
+        class="faculty-photo"
+        >
     </div>
 
     <div class="navigation">
